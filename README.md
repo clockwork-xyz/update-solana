@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v2
-      - uses: clockwork-xyz/update-solana@v1
+      - uses: clockwork-xyz/update-solana@v1.1.0
 ```
 
 How is how the action behaves:
