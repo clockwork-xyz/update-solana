@@ -4,12 +4,7 @@ A GitHub action that auto-generates a PR to keep a workspace's cargo dependencie
 
 ## Usage
 
-Below is an example of a Github workflow that calls the `update-solana` action once per day. How is how the action behaves:
-- If the workspace's Solana dependencies are out-of-date, the changes will be pushed to a new branch and a pull request created.
-- If there are no changes, no pull request will be created and the action exits silently.
-- If a pull request already exists it will be updated if necessary. If no update is required the action exits silently.
-- If a pull request exists and new changes on the base branch make the pull request unnecessary (i.e. there is no longer a diff between the pull request branch and the base), the pull request is automatically closed. 
-
+Below is an example of a Github workflow that calls the `update-solana` action once per day. 
 ```yaml
 name: Update Solana
 
@@ -27,6 +22,13 @@ jobs:
       - uses: actions/checkout@v2
       - uses: clockwork-xyz/update-solana@v1
 ```
+
+How is how the action behaves:
+- If the workspace's Solana dependencies are out-of-date, the changes will be pushed to a new branch and a pull request created.
+- If there are no changes, no pull request will be created and the action exits silently.
+- If a pull request already exists it will be updated if necessary. If no update is required the action exits silently.
+- If a pull request exists and new changes on the base branch make the pull request unnecessary (i.e. there is no longer a diff between the pull request branch and the base), the pull request is automatically closed. 
+
 
 ### Action inputs
 
