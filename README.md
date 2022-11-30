@@ -23,3 +23,19 @@ jobs:
       - uses: actions/checkout@v2
       - uses: clockwork-xyz/update-solana@v1
 ```
+
+### Action inputs
+
+All inputs are **optional**. If not set, sensible defaults will be used.
+
+| Name | Description | Default |
+| --- | --- | --- |
+| `labels` | A comma or newline-separated list of labels added to the PR. | |
+| `reviewers` | A comma or newline-separated list of reviewers (GitHub usernames) to request a review from. | |
+
+## Permissions
+
+For this action to work you must explicitly allow GitHub Actions to create pull requests.
+This setting can be found in a repository's settings under Actions > General > Workflow permissions.
+
+For repositories belonging to an organization, this setting can be managed by admins in organization settings under Actions > General > Workflow permissions.
