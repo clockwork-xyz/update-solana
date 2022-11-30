@@ -3,56 +3,16 @@ description: "Generates a PR to keep cargo dependencies in sync with the latest 
 branding:
   icon: box
   color: yellow
-inputs: 
-  token:
-    description: 'GITHUB_TOKEN or a `repo` scoped Personal Access Token (PAT)'
-    default: ${{ github.token }}
-  committer:
-    description: >
-      The committer name and email address in the format `Display Name <email@address.com>`.
-      Defaults to the GitHub Actions bot user.
-    default: 'GitHub <noreply@github.com>'
-  author:
-    description: >
-      The author name and email address in the format `Display Name <email@address.com>`.
-      Defaults to the user who triggered the workflow run.
-    default: '${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>'
-  branch:
-    description: 'The pull request branch name.'
-    default: 'update-solana/stable'
-  base:
-    description: >
-      The pull request base branch.
-      Defaults to the branch checked out in the workflow.
-  push-to-fork:
-    description: >
-      A fork of the checked out parent repository to which the pull request branch will be pushed.
-      e.g. `owner/repo-fork`.
-      The pull request will be created to merge the fork's branch into the parent's base.
-  labels: 
-    description: "A comma or newline-separated list of labels"
-    required: false
-    default: ""
-  assignees:
-    description: 'A comma or newline separated list of assignees (GitHub usernames).'
-  reviewers: 
-    description: "A comma or newline separated list of reviewers (Github usernames) to request review from"
-    required: false
-    default: ""
-  team-reviewers:
-    description: >
-      A comma or newline separated list of GitHub teams to request a review from.
-      Note that a `repo` scoped Personal Access Token (PAT) may be required.
-  milestone:
-    description: 'The number of the milestone to associate the pull request with.'
-  draft:
-    description: 'Create a draft pull request. It is not possible to change draft status after creation except through the web interface'
-    default: false
+outputs:
+  solana-version:
+    description: 'The version Solana dependencies have been updated to'
 runs:
   using: "composite"
   steps:
     - name: Set env variables
-      run: echo "SOLANA_VERSION=$(curl -sL https://api.github.com/repos/solana-labs/solana/releases | jq -r 'map(select(.name | startswith("Mainnet"))) | first | .tag_name' | cut -d'v' -f 2)" >> $GITHUB_ENV
+      run: |
+        echo "SOLANA_VERSION=$(curl -sL https://api.github.com/repos/solana-labs/solana/releases | jq -r 'map(select(.name | startswith("Mainnet"))) | first | .tag_name' | cut -d'v' -f 2)" >> $GITHUB_ENV
+        echo "solana_version=$($SOLANA_VERSION)" >> $GITHUB_OUTPUT
       shell: bash
     - name: Bump dependency versions
       run: | 
@@ -62,21 +22,3 @@ runs:
           sed -i -e "s#\(solana-[a-zA-Z-]* = \"\)[^\"]*\(\"\)#\1$SOLANA_VERSION\2#g" $toml
         done
       shell: bash
-    - name: Create pull request
-      uses: peter-evans/create-pull-request@v4
-      with:
-        token: ${{ inputs.token }}
-        committer: ${{ inputs.committer }}
-        author: ${{ inputs.author }}
-        branch: ${{ inputs.branch }}
-        base: ${{ inputs.base }}
-        delete-branch: true
-        push-to-fork: ${{ inputs.push-to-fork }}
-        labels: ${{ inputs.labels }}
-        assignees: ${{ inputs.assignees }}
-        reviewers: ${{ inputs.reviewers }}
-        team-reviewers: ${{ inputs.team-reviewers }}
-        milestone: ${{ inputs.milestone }}
-        commit-message: Update "solana-" dependencies to v${{ env.SOLANA_VERSION }}
-        title: Update Solana to v${{ env.SOLANA_VERSION }}
-        draft: ${{ inputs.draft }}
