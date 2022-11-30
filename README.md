@@ -4,7 +4,7 @@ A GitHub action that updates a workspace's cargo dependencies to the latest stab
 
 ## Usage
 
-Below is an example of a Github workflow to keep a workspace's dependencies in sync with Solana stable releases. Once per day, this workflow will check if the repo's Solana dependencies are out-of-date and auto-generate a PR to update them using the [`create-pull-request`](https://github.com/marketplace/actions/create-pull-request) action. This PR can be reviewed, updated, and merged by the project's maintainers as they see fit. 
+Below is an example of a Github workflow that keeps a workspace's dependencies in sync with Solana stable releases. Once per day, this workflow will check if the repo's Solana dependencies are out-of-date and auto-generate a PR to update them using the [`create-pull-request`](https://github.com/marketplace/actions/create-pull-request) action. This PR can be reviewed, updated, and merged by the project's maintainers as they see fit. 
 
 ```yaml
 name: Update Solana
