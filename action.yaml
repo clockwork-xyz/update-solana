@@ -1,18 +1,13 @@
 name: "Update Solana"
-description: "Generates a PR to keep cargo dependencies in sync with the latest stable release of Solana"
+description: "Updates workspace dependencies to the latest stable release version of Solana"
 branding:
   icon: box
   color: yellow
-outputs:
-  solana-version:
-    description: 'The version Solana dependencies have been updated to'
 runs:
   using: "composite"
   steps:
     - name: Set env variables
-      run: |
-        echo "SOLANA_VERSION=$(curl -sL https://api.github.com/repos/solana-labs/solana/releases | jq -r 'map(select(.name | startswith("Mainnet"))) | first | .tag_name' | cut -d'v' -f 2)" >> $GITHUB_ENV
-        echo "solana_version=$($SOLANA_VERSION)" >> $GITHUB_OUTPUT
+      run: echo "SOLANA_VERSION=$(curl -sL https://api.github.com/repos/solana-labs/solana/releases | jq -r 'map(select(.name | startswith("Mainnet"))) | first | .tag_name' | cut -d'v' -f 2)" >> $GITHUB_ENV
       shell: bash
     - name: Bump dependency versions
       run: | 
