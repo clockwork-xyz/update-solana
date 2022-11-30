@@ -1,5 +1,5 @@
 name: "Update Solana"
-description: "Generates a PR to keep this repo's dependencies in sync with the latest stable release of Solana"
+description: "Generates a PR to keep cargo dependencies in sync with the latest stable release of Solana"
 inputs: 
   labels: 
     description: "A comma or newline-separated list of labels"
