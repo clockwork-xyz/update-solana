@@ -5,7 +5,7 @@ A GitHub action that generates a pull request to update a repo's dependencies so
 ## Usage
 
 Below is an example of a Github workflow file that uses this action. 
-```
+```yaml
 name: Update Solana
 
 on:
