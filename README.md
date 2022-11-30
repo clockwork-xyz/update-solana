@@ -4,7 +4,8 @@ A GitHub action that generates a pull request to update a repo's dependencies so
 
 ## Usage
 
-Below is an example of a Github workflow file that uses this action. 
+Below is an example of a Github workflow that runs once per day and generates a PR if any of the repo's Solana dependencies are behind the stable release. 
+
 ```yaml
 name: Update Solana
 
