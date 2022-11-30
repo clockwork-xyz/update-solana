@@ -1,6 +1,6 @@
 # Update Solana
 
-A GitHub action that generates a pull request to update a repo's dependencies so they remain in sync with the latest stable release of Solana.
+A GitHub action that generates a PR to keep a workspace's cargo dependencies up-to-date with the latest stable release of Solana.
 
 ## Usage
 
