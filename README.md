@@ -1,6 +1,6 @@
 # Update Solana
 
-A GitHub action that generates a PR to keep a workspace's cargo dependencies up-to-date with the latest stable release of Solana.
+A GitHub action that auto-generates a PR to keep a workspace's cargo dependencies up-to-date with the latest stable release of Solana.
 
 ## Usage
 
