@@ -1,0 +1,34 @@
+name: "Update Solana"
+description: "Generates a PR to keep this repo's dependencies in sync with the latest stable release of Solana"
+inputs: 
+  labels: 
+    description: "A comma or newline-separated list of labels"
+    required: false
+    default: ""
+  reviewers: 
+    description: "A comma or newline separated list of reviewers (Github usernames) to request review from"
+    required: false
+    default: ""
+runs:
+  using: "composite"
+  steps:
+    - name: Set env variables
+      run: echo "SOLANA_VERSION=$(curl -sL https://api.github.com/repos/solana-labs/solana/releases | jq -r 'map(select(.name | startswith("Mainnet"))) | first | .tag_name' | cut -d'v' -f 2)" >> $GITHUB_ENV
+      shell: bash
+    - name: Bump dependency versions
+      run: | 
+        tomls=$(find "." -name Cargo.toml)
+        for toml in "${tomls[@]}" 
+        do 
+          sed -i -e "s#\(solana-[a-zA-Z-]* = \"\)[^\"]*\(\"\)#\1$SOLANA_VERSION\2#g" $toml
+        done
+      shell: bash
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v4
+      with:
+        branch: update-solana/stable-v${{ env.SOLANA_VERSION }}
+        commit-message: Update "solana-" dependencies to v${{ env.SOLANA_VERSION }}
+        title: Update Solana to v${{ env.SOLANA_VERSION }}
+        labels: ${{ inputs.labels }}
+        reviewers: ${{ inputs.reviewers }}
+        draft: false
